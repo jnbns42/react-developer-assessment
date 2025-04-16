@@ -1,10 +1,25 @@
 
-import Header from './Header';
 import { useState, useEffect } from 'react';
 //import { useSearchParams, SetURLSearchParams } from 'react-router';
+import { styled } from 'styled-components';
+
+import Header from './Header';
+import Book from './Book';
 
 import { Post, Author, Category } from '../interface';
 
+const List = styled.ul`
+  list-style: none;
+  padding: 0 20px;
+  margin: 0 auto;
+  max-width: 1024px;
+  display: flex;
+  flex-wrap: wrap;
+`
+
+const ListItem = styled.li`
+  flex: 1 0 33.3333%;
+`
 
 const App: React.FC = () => {
   
@@ -28,14 +43,14 @@ const App: React.FC = () => {
     };
     fetchData();
   }, [])
-  console.log(data)
+
   return (
     <div>
       {/* Complete the exercise here. */}
       <Header/>
-      <ul>
-        {data?.map((book, index) => <li>{book.title}</li>)}
-      </ul>
+      <List>
+        {data?.map((book, index) => <ListItem><Book title={book.title} /></ListItem>)}
+      </List>
     </div>
   );
 };
