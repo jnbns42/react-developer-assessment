@@ -1,12 +1,14 @@
-import { l } from 'react-router/dist/development/fog-of-war-oa9CGk10';
+
 import Header from './Header';
 import { useState, useEffect } from 'react';
 //import { useSearchParams, SetURLSearchParams } from 'react-router';
 
+import { Post, Author, Category } from '../interface';
+
 
 const App: React.FC = () => {
   
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Post[]>();
   //const [searchParams, SetURLSearchParams] = useSearchParams();
 
   useEffect(() => {
@@ -18,7 +20,7 @@ const App: React.FC = () => {
           throw new Error(`Error: ${resp.status}`);
         }
         const bookData = await resp.json();
-        setData(bookData);
+        setData(bookData.posts);
       } catch {
         setData([]);
         console.error('Data fetch failed');
@@ -26,11 +28,14 @@ const App: React.FC = () => {
     };
     fetchData();
   }, [])
-
+  console.log(data)
   return (
     <div>
       {/* Complete the exercise here. */}
       <Header/>
+      <ul>
+        {data?.map((book, index) => <li>{book.title}</li>)}
+      </ul>
     </div>
   );
 };
