@@ -13,12 +13,14 @@ const List = styled.ul`
   padding: 0 20px;
   margin: 0 auto;
   max-width: 1024px;
+  gap: 10px;
   display: flex;
   flex-wrap: wrap;
 `
 
 const ListItem = styled.li`
-  flex: 1 0 33.3333%;
+  box-sizing: border-box;
+  flex: 1 0 30%;
 `
 
 const App: React.FC = () => {
@@ -49,7 +51,7 @@ const App: React.FC = () => {
       {/* Complete the exercise here. */}
       <Header/>
       <List>
-        {data?.map((book, index) => <ListItem><Book title={book.title} /></ListItem>)}
+        {data?.map((book, index) => <ListItem key={index}><Book delay={index} title={book.title} /></ListItem>)}
       </List>
     </div>
   );
