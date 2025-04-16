@@ -1,3 +1,7 @@
+html, body {
+  height: 100%;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,9 +9,17 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #1ba3de;
+  background: linear-gradient(275deg,rgba(27, 163, 222, 1) 0%, rgba(146, 230, 247, 1) 100%);
+  background-size: cover;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+/** Colour vars we can refer to if we have to keep consistent colours in the Shadow DOM **/
+:root {
+  --black: #000000;
+  --white: #ffffff;
 }
