@@ -14,13 +14,12 @@ const List = styled.ul`
   margin: 0 auto;
   max-width: 1024px;
   gap: 10px;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: auto auto auto;
 `
 
 const ListItem = styled.li`
   box-sizing: border-box;
-  flex: 1 0 30%;
 `
 
 const App: React.FC = () => {
