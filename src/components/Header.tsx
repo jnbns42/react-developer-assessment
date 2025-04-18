@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
 import { styled } from 'styled-components';
-
-
-const H1 = styled.h1`
-    text-align: center;
-    color: var(--white);
- `;
+import Heading from './Heading';
 
 export default class Header extends Component {
     render() {
         return <>
-            <H1>A big list of books</H1>
+            <Heading level="1" text="A big list of books"/>
         </>
     }
 }
