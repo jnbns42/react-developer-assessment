@@ -66,7 +66,7 @@ const App: React.FC = () => {
   }
 
   const pagerItems = () => {
-    const elems: Array<any> = [];
+    const elems: Array<React.ReactNode> = [];
     
     if (paginatedData) {
       for (let i = 0; i < paginatedData?.totalPages - 1; i++) {
@@ -111,11 +111,11 @@ const App: React.FC = () => {
     <div>
       <Header/>
         <List>
-            {paginatedData?.pages[currentPage]?.map((book, index) => <ListItem key={index}><Book delay={index} title={book.title} /></ListItem>)}
-          </List>
-          <Pager>
-              {pagerItems()}
-          </Pager>
+          {paginatedData?.pages[currentPage]?.map((book, index) => <ListItem key={index}><Book delay={index} title={book.title} /></ListItem>)}
+        </List>
+        <Pager>
+            {pagerItems()}
+        </Pager>
     </div>
   );
 };
