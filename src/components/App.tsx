@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createRef } from 'react';
 import { useLocation, useSearchParams } from 'react-router';
 import { styled, css } from 'styled-components';
 
@@ -8,7 +8,7 @@ import Book from './Book';
 
 import Paginate from '../util/paginate';
 
-import { Post, PaginatedPosts, Author, Category } from '../interface';
+import { Post, PaginatedPosts } from '../interface';
 
 // Simple CSS reset for lists
 const listReset = css`
@@ -47,7 +47,13 @@ const Pager = styled.ul`
   justify-content: center;
 `;
 
-const PagerItem = styled.li``
+const PagerItem = styled.button`
+  background: none;
+  border: none;
+  color: var(--white);
+  font-weight: bold;
+  cursor: pointer;
+`
 
 const App: React.FC = () => {
   
@@ -60,9 +66,16 @@ const App: React.FC = () => {
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState<number>(1);
   
+  const listRef = createRef<any>();
+
   const pagerClickHandler = (page: number) => {
-    setParams({p: page.toString()});
-    setCurrentPage(page);
+    listRef.current?.classList.add('hide');
+  
+    setTimeout(() => {
+      listRef.current?.classList.remove('hide');
+      setParams({p: page.toString()});
+      setCurrentPage(page);
+    }, 500)
   }
 
   const pagerItems = () => {
@@ -71,7 +84,7 @@ const App: React.FC = () => {
     if (paginatedData) {
       for (let i = 0; i < paginatedData?.totalPages - 1; i++) {
         elems.push( <li>
-          <button onClick={(event: any) => pagerClickHandler(i + 1)}>{ i + 1 }</button>
+          <PagerItem onClick={(event: any) => pagerClickHandler(i + 1)}>{ i + 1 }</PagerItem>
         </li>)
       }
     }
@@ -95,11 +108,11 @@ const App: React.FC = () => {
       }
     };
 
-    // if we have not yet retrieved data, get it...
+    // if we have not yet retrieved data, get it...don't want to continuesly hit the end point
     if (!dataFetched) {
       fetchData();
 
-    // if we have retrieved data, paginate it...
+    // if we have retrieved data, paginate it...again, don't want to do this repeatedly.
     } else if (paginatedData == undefined) {
       setPaginatedData(Paginate(data, PAGE_SIZE));
       setCurrentPage(params.has('p') ? parseInt(params.get('p') || '1') : 1);
@@ -110,8 +123,8 @@ const App: React.FC = () => {
   return (
     <div>
       <Header/>
-        <List>
-          {paginatedData?.pages[currentPage]?.map((book, index) => <ListItem key={index}><Book delay={index} title={book.title} /></ListItem>)}
+        <List ref={listRef}>
+          {paginatedData?.pages[currentPage]?.map((book, index) => <ListItem key={index}><Book delay={index} title={book.title} author={book.author.name} categories={book.categories}/></ListItem>)}
         </List>
         <Pager>
             {pagerItems()}
