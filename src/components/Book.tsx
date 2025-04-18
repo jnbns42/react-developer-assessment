@@ -15,7 +15,7 @@ const Card = styled.div<StyleProps>`
     text-align: left;
     background: linear-gradient(75deg,rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.25) 50%, rgba(0, 0, 0, 0.5) 100%);
     padding: 20px;
-    border: 1px solid var(--black);
+    border: 1px solid rgba(0,0,0,0.5);
     border-radius: .5em;
     color: var(--white);
     opacity: 1;

@@ -20,3 +20,8 @@ export interface Category {
     id: string
     name: string
 }
+
+export interface PaginatedPosts { 
+    totalPages: number, 
+    pages: Post[][] 
+} 
