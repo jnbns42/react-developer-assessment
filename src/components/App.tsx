@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { useSearchParams, SetURLSearchParams, Navigate } from 'react-router';
+import { useLocation, useSearchParams } from 'react-router';
 import { styled, css } from 'styled-components';
 
 import Header from './Header';
@@ -57,11 +57,25 @@ const App: React.FC = () => {
   const [dataFetched, setDataFetched] = useState<boolean>(false); // Bool
   const [paginatedData, setPaginatedData] = useState<PaginatedPosts>(); // Paginated data
   const [params, setParams] = useSearchParams();
+  const location = useLocation();
   const [currentPage, setCurrentPage] = useState<number>(1);
   
   const pagerClickHandler = (page: number) => {
     setParams({p: page.toString()});
     setCurrentPage(page);
+  }
+
+  const pagerItems = () => {
+    const elems: Array<any> = [];
+    
+    if (paginatedData) {
+      for (let i = 0; i < paginatedData?.totalPages - 1; i++) {
+        elems.push( <li>
+          <button onClick={(event: any) => pagerClickHandler(i + 1)}>{ i + 1 }</button>
+        </li>)
+      }
+    }
+    return elems;
   }
 
   useEffect(() => {
@@ -75,35 +89,33 @@ const App: React.FC = () => {
         const bookData = await resp.json();
         setData(bookData.posts);
         setDataFetched(true); // set boolean stating data fetched
-
       } catch {
         setData([]);
         console.error('Data fetch failed');
       }
     };
+
     // if we have not yet retrieved data, get it...
     if (!dataFetched) {
       fetchData();
+
     // if we have retrieved data, paginate it...
     } else if (paginatedData == undefined) {
       setPaginatedData(Paginate(data, PAGE_SIZE));
       setCurrentPage(params.has('p') ? parseInt(params.get('p') || '1') : 1);
       setParams({p: currentPage.toString()});
     }
-  }, [currentPage, data])
+  }, [location, data])
 
   return (
     <div>
       <Header/>
-      <List>
-        {paginatedData?.pages[currentPage]?.map((book, index) => <ListItem key={index}><Book delay={index} title={book.title} /></ListItem>)}
-      </List>
-      <Pager>
-          <li>
-            <button onClick={(event: any) => pagerClickHandler(1)}>1</button>
-            <button onClick={(event: any) => pagerClickHandler(2)}>2</button>
-          </li>
-      </Pager>
+        <List>
+            {paginatedData?.pages[currentPage]?.map((book, index) => <ListItem key={index}><Book delay={index} title={book.title} /></ListItem>)}
+          </List>
+          <Pager>
+              {pagerItems()}
+          </Pager>
     </div>
   );
 };

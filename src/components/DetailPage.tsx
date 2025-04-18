@@ -7,7 +7,7 @@ const H1 = styled.h1`
     color: var(--white);
  `;
 
-export default class Header extends Component {
+export default class Details extends Component {
     render() {
         return <>
             <H1>A big list of books</H1>
