@@ -10,7 +10,6 @@ import Paginate from '../util/paginate';
 
 import { Post, PaginatedPosts } from '../interface';
 import { getCategories } from '../util/filters';
-import { l } from 'react-router/dist/development/fog-of-war-oa9CGk10';
 
 // Simple CSS reset for lists
 const listReset = css`
