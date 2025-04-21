@@ -45,14 +45,18 @@ const Pager = styled.ul`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  gap: 10px;
   justify-content: center;
+  margin: 20px;
 `;
 
 const PagerItem = styled.button`
-  background: none;
+  background: #487BB5;
   border: none;
+  border-radius: .25em;
   color: var(--white);
   font-weight: bold;
+  font-size: 1em;
   cursor: pointer;
 `
 
@@ -107,8 +111,12 @@ const App: React.FC = () => {
     const list = listRef.current;
 
     list.classList.add('hide');
-    setParams({p: page.toString()});
-    
+    if (params.has("cat")) {
+      setParams({cat: params.get('cat') || "", p: page.toString()});
+    } else {
+      setParams({p: page.toString()});
+    }
+
     setTimeout(() => {
       setCurrentPage(page);
       list.classList.remove('hide');
@@ -116,7 +124,8 @@ const App: React.FC = () => {
   }
 
   const handleFilterChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setParams({cat: e.target.value});
+    setParams({cat: e.target.value, p: "1"});
+    setCurrentPage(1);
     setCategory(e.target.value)
   }
 
