@@ -1,6 +1,6 @@
 
 import { useState, useEffect, createRef, useMemo } from 'react';
-import { useLocation, useSearchParams } from 'react-router';
+import { useSearchParams } from 'react-router';
 import { styled, css } from 'styled-components';
 
 import Header from './Header';
@@ -62,7 +62,6 @@ const App: React.FC = () => {
 
   const [paginatedData, setPaginatedData] = useState<PaginatedPosts>(); // Paginated data
   const [params, setParams] = useSearchParams({});
-  const location = useLocation();
 
   // Retrieve page query param and store it...properly 
   const [currentPage, setCurrentPage] = useState<number>(parseInt(params.get("p") || "1"));
@@ -75,9 +74,9 @@ const App: React.FC = () => {
     const list = listRef.current;
 
     list.classList.add('hide');
+    setParams({p: page.toString()});
     
     setTimeout(() => {
-      setParams({p: page.toString()});
       setCurrentPage(page);
       list.classList.remove('hide');
     }, 500)
@@ -89,7 +88,7 @@ const App: React.FC = () => {
     if (paginatedData) {
       for (let i = 0; i <= paginatedData?.totalPages - 1; i++) {
         elems.push( <li>
-          <PagerItem onClick={(event: any) => pagerClickHandler(i + 1)}>{ i + 1 }</PagerItem>
+          <PagerItem data-testid={`data-testid="button-page-${i+1}"`} onClick={(event: any) => pagerClickHandler(i + 1)}>{ i + 1 }</PagerItem>
         </li>)
       }
     }
