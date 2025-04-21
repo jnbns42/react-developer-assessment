@@ -1,4 +1,4 @@
-import { Post } from '../interface';
+import { Post, Category } from '../interface';
 
 /**
  * Utility to work out unique categories for our list of selectable filters.
@@ -15,4 +15,10 @@ export const getCategories = (data: Post[]) => {
     });
     // return our set as an array
     return Array.from(categorySet);
+}
+
+export const filterPosts = (data: Post[], category: string) => {
+    return data.filter(post => 
+        post.categories.some(postCategory => postCategory.name == category)
+      );
 }
