@@ -77,6 +77,11 @@ test('Landing page has a least one book', async () => {
  * but it seems the app has issues setting the query params in this context.
  * 
  * PLEASE tell me what I am doing wrong here becasue it is annoying me!
+ * 
+ * I should also go on to say once I fixed this, I was planning on writing a
+ * test for my category filter, which would check for the occurance of the selected category
+ * per displayed book, but as that is dependant on query params as per test 
+ * requirements, this is a bit of a blocker.
  */
 test('Should show page 2', async () => {
 
